@@ -23,9 +23,11 @@ jobs:
         run: |
           set -euo pipefail
           shopt -s nullglob
-          for package in migration-part-*.zip; do
-            unzip -o "$package" -x '.github/workflows/*'
-          done
+          if [[ ! -f site/index.html ]]; then
+            for package in migration-part-*.zip; do
+              unzip -o "$package" -x '.github/workflows/*'
+            done
+          fi
       - run: npm ci --ignore-scripts
       - run: npm run check
       - uses: actions/configure-pages@v5
